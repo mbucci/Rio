@@ -1,0 +1,15 @@
+*.pyc
+scratch/*
+.DS_Store
+
+# Elastic Beanstalk Files
+beanstalk_creds.txt
+.ebextensions
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+client_secrets.json
+export/
+import/
+attributes/
