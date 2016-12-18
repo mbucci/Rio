@@ -1,7 +1,7 @@
-from flask import Blueprint, current_app, jsonify
+from flask import Blueprint, request, current_app, jsonify
 from flask_swagger import swagger
 
-from resources.trade import Trade
+from resources.trade_stats import TradeStats
 from resources.crawl import Crawl
 
 import utils
@@ -19,44 +19,83 @@ def home():
 
 @API.route('/crawl', methods=['GET'])
 def crawl():
+	kind = request.args.get('kind') or None
+	year = request.args.get('year') or None
+	ingest = request.args.get('ingest', '').lower() == 'true'
+	download = request.args.get('download', '').lower() == 'true'
+
 	crawl = Crawl()
-	response = crawl.get()
+	response = crawl.get(kind=kind, year=year, ingest=ingest, download=download)
 	return jsonify(response)
 
 
 @API.route('/trade/years/<year>/top', methods=['GET'])
 def get_year_stats(year):
-	# 1
-	trade = Trade()
-	response = trade.get()
+	"""
+	#1
+
+	http://localhost:5000/api/trade/years/2001/top
+	"""
+	stats = TradeStats()
+	response = stats.get_top_export_by_year(year)
 	return jsonify(response)
 
 
-@API.route('/trade/states/<state>/municipalities/<municipality>/product', methods=['GET'])
-def get_municipality_product_stats(state, municipality):
-	# 2
-	pass
+@API.route('/trade/states/<state>/years/<year>/product', methods=['GET'])
+def get_municipality_product_stats(state, year):
+	"""
+	#2
+
+	http://localhost:5000/api/trade/states/36/years/2001/product
+	"""
+	stats = TradeStats()
+	response = stats.get_top_product_by_municipality(state, year)
+	return jsonify(response)
 
 
-@API.route('/trade/states/<state>/municipalities/<municipality>/years/<year>/product', methods=['GET'])
-def get_municipality_year_product_stats(state, municipality, year):
-	# 3
-	pass
+@API.route('/trade/municipalities/<municipality>/years/<year>/product', methods=['GET'])
+def get_municipality_year_product_stats(municipality, year):
+	"""
+	#3
+
+	http://localhost:5000/api/trade/municipalities/3448708/years/2001/product
+	"""
+	stats = TradeStats()
+	response = stats.get_imports_by_municipality(municipality, year)
+	return jsonify(response)
 
 
 @API.route('/trade/states/<state>/years/<year>/export', methods=['GET'])
 def get_state_export_stats(state, year):
-	# 4
-	pass
+	"""
+	#4
+
+	http://localhost:5000/api/trade/states/13/years/2001/export
+	"""
+	stats = TradeStats()
+	response = stats.get_exports_by_state(state, year)
+	return jsonify(response)
 
 
 @API.route('/trade/states/<state>/years/<year>/municipality', methods=['GET'])
 def get_municipality_growth_stats(state, year):
-	# 5
-	pass
+	"""
+	#5
+	
+	http://localhost:5000/api/trade/states/33/years/2001/municipality
+	"""
+	stats = TradeStats()
+	response = stats.get_municipalites_by_growth(state, year)
+	return jsonify(response)
 
 
-@API.route('/countries/<country>/products/<product>/years/<year>/municipality', methods=['GET'])
+@API.route('/trade/countries/<country>/products/<product>/years/<year>/municipality', methods=['GET'])
 def get_import_stats(country, product, year):
-	# 6
-	pass
+	"""
+	#6
+
+	http://localhost:5000/api/trade/countries/160/products/2516/years/2001/municipality
+	"""
+	stats = TradeStats()
+	response = stats.get_municipalities_by_import(country, product, year)
+	return jsonify(response)

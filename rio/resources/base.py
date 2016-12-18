@@ -26,8 +26,9 @@ class Base(Resource):
 					schema.exclude += (field,)
 		return schema.dump(results).data
 
-	def _validate_request_body(self, body):
-		response = self._schema_class(strict=True).load(body)
+	def _validate_request_body(self, body, schema=None):
+		schema = schema if schema else self._schema_class
+		response = schema(strict=True).load(body)
 		if response.errors:
 			raise Exception(response.errors)
 		return response.data

@@ -1,0 +1,4 @@
+from trade import TradeSchema
+from brazil_lookup import BrazilLookupSchema
+from product_lookup import ProductLookupSchema
+from world_lookup import WorldLookupSchema

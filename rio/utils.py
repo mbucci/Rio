@@ -4,10 +4,6 @@ from flask import request
 from flask_restful import reqparse
 
 
-def parse_bool(kwarg):
-    return True if kwarg and kwarg.lower() == 'true' else False
-
-
 def mkdir(name):
     current_dir = os.getcwd()
     path = current_dir + '/' + name
@@ -15,3 +11,11 @@ def mkdir(name):
         os.makedirs(path)
 
     return path
+
+
+def download_file(f, file_name):
+	if os.path.exists(file_name):
+		return
+
+	f.GetContentFile(file_name)
+	print('Downloaded: %s' % file_name)

@@ -9,11 +9,12 @@ gauth = GoogleAuth()
 gauth.LocalWebserverAuth()
 drive = GoogleDrive(gauth)
 
-LOCAL_DB = 'mysql://root:Hugediablo!6@localhost:3306/rio'
-DEV_DB = 'mysql://pitchmedia:bankbluezanyplow@rio-dev.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio'
+LOCAL_DB = 'mysql://root:Hugediablo!6@localhost:3306/rio?charset=utf8mb4'
+DEV_DB = 'mysql://pitchmedia:bankbluezanyplow@rio-dev.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio?charset=utf8'
 
 def create_app(environment='local'):
 	application = Flask(__name__)
+	application.config['JSON_AS_ASCII'] = False
 	if environment == 'local':
 		application.config['SQLALCHEMY_DATABASE_URI'] = LOCAL_DB
 	elif environment == 'dev':
