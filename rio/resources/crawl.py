@@ -39,7 +39,7 @@ class Crawl(Base):
 				count = 0
 				if key in ['import', 'export']:
 					rf = rarfile.RarFile(ingest_file)
-					f = next(rf.namelist())
+					f = next(iter(rf.namelist() or []), None)
 					with rf.open(f) as csvfile:
 						reader = csv.DictReader(csvfile, delimiter='|')
 						for r in reader:
