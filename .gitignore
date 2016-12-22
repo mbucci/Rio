@@ -2,7 +2,6 @@
 .DS_Store
 
 beanstalk_creds.txt
-client_secrets.json
 export/
 import/
 attributes/
