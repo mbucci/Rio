@@ -6,7 +6,6 @@ from pydrive.drive import GoogleDrive
 db = SQLAlchemy()
 
 gauth = GoogleAuth()
-gauth.LocalWebserverAuth()
 drive = GoogleDrive(gauth)
 
 LOCAL_DB = 'mysql://root:Hugediablo!6@localhost:3306/rio?charset=utf8mb4'
