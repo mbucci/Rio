@@ -10,7 +10,7 @@ gauth.LocalWebserverAuth()
 drive = GoogleDrive(gauth)
 
 LOCAL_DB = 'mysql://root:Hugediablo!6@localhost:3306/rio?charset=utf8mb4'
-DEV_DB = 'mysql://pitchmedia:bankbluezanyplow@rio-dev.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio?charset=utf8'
+DEV_DB = 'mysql://mbucci:Hugediablo!6@rio-db.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio_db?charset=utf8'
 
 def create_app(environment='local'):
 	application = Flask(__name__)

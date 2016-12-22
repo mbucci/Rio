@@ -1,8 +1,9 @@
 branch-defaults:
   master:
-    environment: rio-dev
+    environment: null
+    group_suffix: null
 global:
-  application_name: rio_api
+  application_name: rio
   default_ec2_keyname: mbucci
   default_platform: Python 2.7
   default_region: us-east-1

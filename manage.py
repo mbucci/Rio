@@ -4,8 +4,8 @@ from flask_migrate import Migrate, MigrateCommand
 from rio.app import db, create_app
 from rio.models.base import Base
 
-# application = create_app(environment='dev')
-application = create_app()
+application = create_app(environment='dev')
+# application = create_app()
 application.config['DEBUG'] = True
 
 migrate = Migrate(application, Base)
