@@ -9,4 +9,5 @@ class Local(Common):
 
 
 class Development(Common):
-	SQLALCHEMY_DATABASE_URI = 'mysql://mbucci:Hugediablo!6@rio-db.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio_db?charset=utf8'
+	JSON_AS_ASCII = True
+	SQLALCHEMY_DATABASE_URI = 'mysql://mbucci:Hugediablo!6@rio-db.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio_db?charset=utf8mb4'

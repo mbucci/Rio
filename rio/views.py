@@ -94,7 +94,7 @@ def get_import_stats(country, product, year):
 	"""
 	#6
 
-	http://rio-dev.us-east-1.elasticbeanstalk.com/trade/countries/160/products/2516/years/2011/municipality
+	http://rio-dev.us-east-1.elasticbeanstalk.com/api/trade/countries/160/products/2516/years/2011/municipality
 	"""
 	stats = TradeStats()
 	response = stats.get_municipalities_by_import(country, product, year)
