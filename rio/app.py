@@ -3,25 +3,26 @@ from flask_sqlalchemy import SQLAlchemy
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 
-db = SQLAlchemy()
+import settings
 
+
+db = SQLAlchemy()
 gauth = GoogleAuth()
 drive = GoogleDrive(gauth)
 
-LOCAL_DB = 'mysql://root:Hugediablo!6@localhost:3306/rio?charset=utf8mb4'
-DEV_DB = 'mysql://mbucci:Hugediablo!6@rio-db.c8wwstsgstz6.us-east-1.rds.amazonaws.com:3306/rio_db?charset=utf8'
-
-def create_app(environment='local'):
+def create_app(environment='lcl'):
 	application = Flask(__name__)
-	application.config['JSON_AS_ASCII'] = False
-	if environment == 'local':
-		application.config['SQLALCHEMY_DATABASE_URI'] = LOCAL_DB
+	
+	if environment == 'lcl':
+		config = settings.Local()
 	elif environment == 'dev':
-		application.config['SQLALCHEMY_DATABASE_URI'] = DEV_DB
+		config = settings.Development()
+
+	application.config.from_object(config)
+	print("Imported %s settings!" % environment)
 
 	db.init_app(application)
 	register_blueprints(application)
-
 	return application
 
 def register_blueprints(application):

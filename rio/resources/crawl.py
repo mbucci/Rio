@@ -37,15 +37,28 @@ class Crawl(Base):
 		for key, file_list in files.iteritems():
 			for ingest_file in file_list:
 				count = 0
+				records = []
 				if key in ['import', 'export']:
 					rf = rarfile.RarFile(ingest_file)
 					f = next(iter(rf.namelist() or []), None)
 					with rf.open(f) as csvfile:
 						reader = csv.DictReader(csvfile, delimiter='|')
 						for r in reader:
+							if count % 10000 == 0:
+								print(ingest_file, count)
+
 							body = Trade.ingest(r)
 							body['kind'] = key
-							self._validate_and_add(body, Trade, TradeSchema)
+							records.append(self._validate_request_body(body, schema=TradeSchema))
+							count += 1
+
+					n = 0
+					while n < len(records):
+						n1 = n + 10000
+						db.session.bulk_insert_mappings(Trade, records[n:n1])
+						print("%s/%s inserted" % (n1, len(records)))
+						n = n1
+					db.session.commit()
 
 				else:
 					with open(ingest_file) as csvfile:
@@ -61,23 +74,19 @@ class Crawl(Base):
 							schema = WorldLookupSchema
 
 						reader = csv.DictReader(csvfile, delimiter=',')
-						
 						for r in reader:
 							if count % 100 == 0:
 								print(ingest_file, count)
+
 							try:
-								count += 1
 								body = model.ingest(r)
-								self._validate_and_add(body, model, schema)
+								records.append(self._validate_request_body(body, schema=schema))
+								count += 1
 							except ValueError as v:
 								continue
 
-				db.session.commit()
-
-	def _validate_and_add(self, body, model, schema):
-		validated_body = self._validate_request_body(body, schema=schema)
-		new = model.create(**validated_body)
-		db.session.add(new)
+					db.session.bulk_insert_mappings(model, records)
+					db.session.commit()
 
 	@staticmethod
 	def _scrape_drive(spaces, folder, year, download):

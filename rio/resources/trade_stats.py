@@ -16,7 +16,7 @@ class TradeStats(Base):
 		t = self._model_class
 		b = BrazilLookup
 		exports_q = select([t.municipality_id.label('id'), func.sum(t.transaction_amount_usd).label('export_value')]) \
-					.where(and_(t.kind == 'import',
+					.where(and_(t.kind == 'export',
 							    t.year == year)) \
 					.group_by(t.municipality_id) \
 					.alias()
@@ -34,7 +34,7 @@ class TradeStats(Base):
 		p = ProductLookup
 
 		exports_q = select([t.municipality_id.label('id'), t.transacted_product_id.label('product'), func.sum(t.transaction_amount_usd).label('value')]) \
-					.where(and_(t.kind == 'import',
+					.where(and_(t.kind == 'export',
 								t.state_id == state, 
 							    t.year == year)) \
 					.group_by(t.municipality_id, t.transacted_product_id) \
@@ -81,7 +81,7 @@ class TradeStats(Base):
 		w = WorldLookup
 
 		exports_q = select([t.desination.label('destination'), func.sum(t.transaction_amount_usd).label('value')]) \
-					.where(and_(t.kind == 'import',
+					.where(and_(t.kind == 'export',
 								t.state_id == state,
 								t.year == year)) \
 					.group_by(t.desination) \
@@ -99,7 +99,7 @@ class TradeStats(Base):
 
 		past_year = int(year) - 1
 		growth_q = select([t.year, t.municipality_id.label('id'), func.sum(t.transaction_amount_usd).label('value')]) \
-					.where(and_(t.kind == 'import',
+					.where(and_(t.kind == 'export',
 								t.state_id == state,
 								or_(t.year == year,
 									t.year == past_year))) \
