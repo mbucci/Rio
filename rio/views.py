@@ -34,7 +34,7 @@ def get_year_stats(year):
 	"""
 	#1
 
-	http://localhost:5000/api/trade/years/2013/top
+	http://rio-dev.us-east-1.elasticbeanstalk.com/api/trade/years/2013/top
 	"""
 	stats = TradeStats()
 	response = stats.get_top_export_by_year(year)
@@ -46,7 +46,7 @@ def get_municipality_product_stats(state, year):
 	"""
 	#2
 
-	http://localhost:5000/api/trade/states/36/years/2013/product
+	http://rio-dev.us-east-1.elasticbeanstalk.com/api/trade/states/36/years/2013/product
 	"""
 	stats = TradeStats()
 	response = stats.get_top_product_by_municipality(state, year)
@@ -58,7 +58,7 @@ def get_municipality_year_product_stats(municipality, year):
 	"""
 	#3
 
-	http://localhost:5000/api/trade/municipalities/3448708/years/2011/product
+	http://rio-dev.us-east-1.elasticbeanstalk.com/api/trade/municipalities/3448708/years/2011/product
 	"""
 	stats = TradeStats()
 	response = stats.get_imports_by_municipality(municipality, year)
@@ -70,7 +70,7 @@ def get_state_export_stats(state, year):
 	"""
 	#4
 
-	http://localhost:5000/api/trade/states/13/years/2012/export
+	http://rio-dev.us-east-1.elasticbeanstalk.com/api/trade/states/13/years/2012/export
 	"""
 	stats = TradeStats()
 	response = stats.get_exports_by_state(state, year)
@@ -82,7 +82,7 @@ def get_municipality_growth_stats(state, year):
 	"""
 	#5
 	
-	http://localhost:5000/api/trade/states/33/years/2014/municipality
+	http://rio-dev.us-east-1.elasticbeanstalk.com/api/trade/states/33/years/2014/municipality
 	"""
 	stats = TradeStats()
 	response = stats.get_municipalites_by_growth(state, year)
@@ -94,7 +94,7 @@ def get_import_stats(country, product, year):
 	"""
 	#6
 
-	http://localhost:5000/api/trade/countries/160/products/2516/years/2011/municipality
+	http://rio-dev.us-east-1.elasticbeanstalk.com/trade/countries/160/products/2516/years/2011/municipality
 	"""
 	stats = TradeStats()
 	response = stats.get_municipalities_by_import(country, product, year)
